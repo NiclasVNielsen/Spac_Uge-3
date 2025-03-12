@@ -1,9 +1,8 @@
 app = require("./server.js")
 
 
-const testing = require("./routes/testing.js")
-app.use("/api/testing", testing)
-
-
 const cereals = require("./routes/cereals.js")
 app.use("/api/cereals", cereals)
+
+const users = require("./routes/users.js")
+app.use("/api/users", users)

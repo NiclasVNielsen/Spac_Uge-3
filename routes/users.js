@@ -1,25 +1,25 @@
-const cereals = require("../models/cereals.js")
+const users = require("../models/users.js")
 const router = require("express").Router()
 const {validate} = require('./middelware.js')
 
 //? Read All
-//* Retrieves All Cereals
-// /api/cereals/ - get
+//* Retrieves All Users
+// /api/users/ - get
 router.get("/", validate, async (req, res) => {
     if(Object.keys(req.query).length == 0){
         try {
-            const response = await cereals.getAll()
+            const response = await users.getAll()
     
             res.send(response)
         } catch (error) {
             console.error(error)
         }
 //? Read Specific
-//* Retrieves Filtered Cereals
-// /api/cereals/?x - get
+//* Retrieves Filtered Users
+// /api/users/?x - get
     }else{
         try {
-            const response = await cereals.getFiltered(req.query)
+            const response = await users.getFiltered(req.query)
     
             res.send(response)
         } catch (error) {
@@ -29,11 +29,11 @@ router.get("/", validate, async (req, res) => {
 })
 
 //? Create One
-//* Creates a Cereal element
-// /api/cereals/ - post
+//* Creates a User element
+// /api/users/ - post
 router.post("/" , async (req, res) => {
     try {
-        const response = await cereals.createOne(req.body)
+        const response = await users.createOne(req.body)
 
         res.send(response)
     } catch (error) {
@@ -42,11 +42,11 @@ router.post("/" , async (req, res) => {
 })
 
 //? Updates Filtered
-//* Updates all cereals that maches the filter
-// /api/cereals/?x - put
+//* Updates all Users that maches the filter
+// /api/users/?x - put
 router.put("/" , async (req, res) => {
     try {
-        const response = await cereals.updateFiltered(req.query, req.body)
+        const response = await users.updateFiltered(req.query, req.body)
 
         res.send(response)
     } catch (error) {
@@ -55,11 +55,11 @@ router.put("/" , async (req, res) => {
 })
 
 //? Delete Filtered
-//* Delete all cereals that maches the filter
-// /api/cereals/?x - delete
+//* Delete all Users that maches the filter
+// /api/users/?x - delete
 router.delete("/" , async (req, res) => {
     try {
-        const response = await cereals.deleteFiltered(req.query)
+        const response = await users.deleteFiltered(req.query)
 
         res.send(response)
     } catch (error) {

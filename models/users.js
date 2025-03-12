@@ -2,7 +2,7 @@ const connection = require('../dbconn.js')
 
 module.exports.getAll = async () => {   
     const response = await new Promise(async (res, rej) => {
-        connection.query('SELECT * FROM cereals', (err, rows, fields) => {
+        connection.query('SELECT * FROM users', (err, rows, fields) => {
             if (err) rej(err)
             res(rows)
         })
@@ -21,7 +21,7 @@ module.exports.getFiltered = async (filter) => {
             queryCondition += ` ${Object.keys(filter)[i]} LIKE '%${filter[Object.keys(filter)[i]]}%'`
         }
 
-        connection.query('SELECT * FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
+        connection.query('SELECT * FROM users WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
             res(rows)
         })
@@ -31,8 +31,8 @@ module.exports.getFiltered = async (filter) => {
 
 module.exports.createOne = async (data) => {
     const response = await new Promise(async (res, rej) => {
-        connection.query(`INSERT INTO cereals (name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) 
-        VALUES ("${data.name}", "${data.mfr}", "${data.type}", "${data.calories}", "${data.protein}", "${data.fat}", "${data.sodium}", "${data.fiber}", "${data.carbo}", "${data.sugars}", "${data.potass}", "${data.vitamins}", "${data.shelf}", "${data.weight}", "${data.cups}", "${data.rating}")`, 
+        connection.query(`INSERT INTO users (name, password) 
+        VALUES ("${data.name}", "${data.password}")`, 
         (err, rows, fields) => {
             if (err) rej(err)
             res("Roger Roger")
@@ -60,7 +60,7 @@ module.exports.updateFiltered = async (filter, data) => {
             queryData += ` ${Object.keys(data)[i]} = '${data[Object.keys(data)[i]]}'`
         }
 
-        connection.query('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition, (err, rows, fields) => {
+        connection.query('UPDATE users SET' + queryData + ' WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
             res("Roger Roger")
         })
@@ -79,7 +79,7 @@ module.exports.deleteFiltered = async (filter) => {
             queryCondition += ` ${Object.keys(filter)[i]} = '${filter[Object.keys(filter)[i]]}'`
         }
 
-        connection.query('DELETE FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
+        connection.query('DELETE FROM users WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
             res("Roger Roger")
         })
