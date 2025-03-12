@@ -59,8 +59,6 @@ module.exports.updateOne = async (filter, data) => {
             queryData += ` ${Object.keys(data)[i]} = '${data[Object.keys(data)[i]]}'`
         }
 
-        console.log('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition)
-
         connection.query('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
             res("Roger Roger")
@@ -69,9 +67,17 @@ module.exports.updateOne = async (filter, data) => {
     return(response)
 }
 
-module.exports.deleteOne = async () => {
+module.exports.deleteOne = async (filter) => {
     const response = await new Promise(async (res, rej) => {
-        connection.query('', (err, rows, fields) => {
+        let queryCondition = ""
+
+        for(let i = 0; i < Object.keys(filter).length; i++){
+            if(i != 0)
+                queryCondition += " AND"
+            queryCondition += ` ${Object.keys(filter)[i]} = '${filter[Object.keys(filter)[i]]}'`
+        }
+
+        connection.query('DELETE FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
             res("Roger Roger")
         })

@@ -48,7 +48,13 @@ router.put("/" , async (req, res) => {
 })
 
 router.delete("/" , async (req, res) => {
+    try {
+        const response = await cereals.deleteOne(req.query)
 
+        res.send(response)
+    } catch (error) {
+        console.error(error)
+    }
 })
 
 module.exports = router
