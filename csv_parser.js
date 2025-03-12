@@ -14,6 +14,8 @@ fs.createReadStream("./Cereal.csv")
         /* da = datArray */
         const da = result[i][Object.keys(result[i])[0]].split(";")
         
+        console.log(result[i])
+
         fetch("http://localhost:3000/api/testing", {
             method: "POST",
             headers: {
