@@ -7,9 +7,9 @@ const router = require("express").Router()
 router.get("/" , async (req, res) => {
     if(Object.keys(req.query).length == 0){
         try {
-            const data = await cereals.getAll()
+            const response = await cereals.getAll()
     
-            res.send(data)
+            res.send(response)
         } catch (error) {
             console.error(error)
         }
@@ -18,13 +18,37 @@ router.get("/" , async (req, res) => {
 // /api/cereals/?x - get
     }else{
         try {
-            const data = await cereals.getDynamiclyFiltered(req.query)
+            const response = await cereals.getDynamiclyFiltered(req.query)
     
-            res.send(data)
+            res.send(response)
         } catch (error) {
             console.error(error)
         }
     }
+})
+
+router.post("/" , async (req, res) => {
+    try {
+        const response = await cereals.createOne(req.body)
+
+        res.send(response)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+router.put("/" , async (req, res) => {
+    try {
+        const response = await cereals.updateOne(req.query, req.body)
+
+        res.send(response)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+router.delete("/" , async (req, res) => {
+
 })
 
 module.exports = router

@@ -1,21 +1,48 @@
 const connection = require('../dbconn.js')
 
 module.exports.getAll = async () => {   
-    const data = await new Promise(async (res, rej) => {
+    const response = await new Promise(async (res, rej) => {
         connection.query('SELECT * FROM cereals', (err, rows, fields) => {
             if (err) rej(err)
             res(rows)
         })
     })
-    return(data)
+    return(response)
 }
-
-//module.exports.getAll = getAll
 
 
 module.exports.getDynamiclyFiltered = async (filter) => {   
-    console.log(filter)
-    const data = await new Promise(async (res, rej) => {
+    const response = await new Promise(async (res, rej) => {
+        let queryCondition = ""
+
+        for(let i = 0; i < Object.keys(filter).length; i++){
+            if(i != 0)
+                queryCondition += " AND"
+            queryCondition += ` ${Object.keys(filter)[i]} LIKE '%${filter[Object.keys(filter)[i]]}%'`
+        }
+
+        connection.query('SELECT * FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
+            if (err) rej(err)
+            res(rows)
+        })
+    })
+    return(response)
+}
+
+module.exports.createOne = async (data) => {
+    const response = await new Promise(async (res, rej) => {
+        connection.query(`INSERT INTO cereals (name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) 
+        VALUES ("${data.name}", "${data.mfr}", "${data.type}", "${data.calories}", "${data.protein}", "${data.fat}", "${data.sodium}", "${data.fiber}", "${data.carbo}", "${data.sugars}", "${data.potass}", "${data.vitamins}", "${data.shelf}", "${data.weight}", "${data.cups}", "${data.rating}")`, 
+        (err, rows, fields) => {
+            if (err) rej(err)
+            res("Roger Roger")
+        })
+    })
+    return(response)
+}
+
+module.exports.updateOne = async (filter, data) => {
+    const response = await new Promise(async (res, rej) => {
         let queryCondition = ""
 
         for(let i = 0; i < Object.keys(filter).length; i++){
@@ -24,29 +51,30 @@ module.exports.getDynamiclyFiltered = async (filter) => {
             queryCondition += ` ${Object.keys(filter)[i]} = '${filter[Object.keys(filter)[i]]}'`
         }
 
-        connection.query('SELECT * FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
+        let queryData = ""
+
+        for(let i = 0; i < Object.keys(data).length; i++){
+            if(i != 0)
+                queryData += ", "
+            queryData += ` ${Object.keys(data)[i]} = '${data[Object.keys(data)[i]]}'`
+        }
+
+        console.log('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition)
+
+        connection.query('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition, (err, rows, fields) => {
             if (err) rej(err)
-            res(rows)
+            res("Roger Roger")
         })
     })
-    return(data)
+    return(response)
 }
 
-//module.exports.getDynamiclyFiltered = getDynamiclyFiltered
-
-
-/* const test = async (name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) => {
-    try {
-        console.log(name + "|" + mfr + "|" + type + "|" + calories + "|" + protein + "|" + fat + "|" + sodium + "|" + fiber + "|" + carbo + "|" + sugars + "|" + potass + "|" + vitamins + "|" + shelf + "|" + weight + "|" + cups + "|" + rating)
-        
-        connection.query(`INSERT INTO cereals (name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) VALUES ("${name}", "${mfr}", "${type}", "${calories}", "${protein}", "${fat}", "${sodium}", "${fiber}", "${carbo}", "${sugars}", "${potass}", "${vitamins}", "${shelf}", "${weight}", "${cups}", "${rating}")`, (err, rows, fields) => {
-            console.log(err)
+module.exports.deleteOne = async () => {
+    const response = await new Promise(async (res, rej) => {
+        connection.query('', (err, rows, fields) => {
+            if (err) rej(err)
+            res("Roger Roger")
         })
-            
-        console.log("idk what im doing")
-    } catch (error) {
-        console.log(error)
-    }
+    })
+    return(response)
 }
-
-module.exports.test = test */
