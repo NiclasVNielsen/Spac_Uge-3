@@ -13,14 +13,18 @@ module.exports.getAll = async () => {
 }
 
 
-module.exports.getFiltered = async (filter) => {   
+module.exports.getFiltered = async (filter, strictness = "loose") => {   
     const response = await new Promise(async (res, rej) => {
         let queryCondition = ""
 
         for(let i = 0; i < Object.keys(filter).length; i++){
             if(i != 0)
                 queryCondition += " AND"
-            queryCondition += ` ${Object.keys(filter)[i]} LIKE '%${filter[Object.keys(filter)[i]]}%'`
+            if(strictness == "loose")
+                queryCondition += ` ${Object.keys(filter)[i]} LIKE '%${filter[Object.keys(filter)[i]]}%'`
+            else{
+                queryCondition += ` ${Object.keys(filter)[i]} = '${filter[Object.keys(filter)[i]]}'`
+            }
         }
 
         connection.query('SELECT * FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
