@@ -87,7 +87,7 @@ router.get("/image", async (req, res) => {
                         filenames.forEach(async (filename) => {
                             fs.readFile('./public/' + filename, 'utf-8', (err, content) => {
                                 if(err)
-                                    console.log(3)
+                                    res.send(err)
                                 else{
                                     if(filename.split(".")[0] == req.query.name){
                                         res.send(filename)
