@@ -78,20 +78,17 @@ router.get("/image", async (req, res) => {
             const response = await cereals.getFiltered(req.query, "strict")
     
             if(response.length != 1)
-                console.log(1)
-                //res.send("Not unique")
+                res.send("Not unique")
             else{
                 fs.readdir('./public', (err, filenames) => {
                     if(err)
-                        console.log(2)
-                        //res.send(err)
+                        res.send(err)
                     else{
                         filenames.forEach(async (filename) => {
                             fs.readFile('./public/' + filename, 'utf-8', (err, content) => {
                                 if(err)
                                     console.log(3)
                                 else{
-                                    //console.log(filename)
                                     if(filename.split(".")[0] == req.query.name){
                                         res.send(filename)
                                     }
@@ -100,8 +97,6 @@ router.get("/image", async (req, res) => {
                         })
                     }
                 })
-
-                //res.send(response[0].name)
             }
         } catch (error) {
             console.error(error)
