@@ -1,11 +1,11 @@
 const users = require("../models/users.js")
 const router = require("express").Router()
-const {validate} = require('./middelware.js')
+const {validate} = require('../middelware.js')
 
 //? Read All
 //* Retrieves All Users
 // /api/users/ - get
-router.get("/", validate, async (req, res) => {
+router.get("/", validate(), async (req, res) => {
     if(Object.keys(req.query).length == 0){
         try {
             const response = await users.getAll()
@@ -31,7 +31,7 @@ router.get("/", validate, async (req, res) => {
 //? Create One
 //* Creates a User element
 // /api/users/ - post
-router.post("/" , async (req, res) => {
+router.post("/", validate(), async (req, res) => {
     try {
         const response = await users.createOne(req.body)
 
@@ -44,7 +44,7 @@ router.post("/" , async (req, res) => {
 //? Updates Filtered
 //* Updates all Users that maches the filter
 // /api/users/?x - put
-router.put("/" , async (req, res) => {
+router.put("/", validate(), async (req, res) => {
     try {
         const response = await users.updateFiltered(req.query, req.body)
 
@@ -60,6 +60,20 @@ router.put("/" , async (req, res) => {
 router.delete("/" , async (req, res) => {
     try {
         const response = await users.deleteFiltered(req.query)
+
+        res.send(response)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
+
+//? Login
+//* Tries to log you in
+// /api/users/login - post
+router.post("/login", async (req, res) => {
+    try {
+        const response = await users.login(req.body)
 
         res.send(response)
     } catch (error) {

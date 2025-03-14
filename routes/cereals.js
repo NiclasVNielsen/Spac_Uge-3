@@ -1,11 +1,12 @@
 const cereals = require("../models/cereals.js")
 const router = require("express").Router()
-const {validate} = require('./middelware.js')
+const {validate} = require('../middelware.js')
+var { expressjwt: jwt } = require("express-jwt");
 
 //? Read All
 //* Retrieves All Cereals
 // /api/cereals/ - get
-router.get("/", validate, async (req, res) => {
+router.get("/", async (req, res) => {
     if(Object.keys(req.query).length == 0){
         try {
             const response = await cereals.getAll()
@@ -31,7 +32,7 @@ router.get("/", validate, async (req, res) => {
 //? Create One
 //* Creates a Cereal element
 // /api/cereals/ - post
-router.post("/" , async (req, res) => {
+router.post("/", validate(), async (req, res) => {
     try {
         const response = await cereals.createOne(req.body)
 
@@ -44,7 +45,7 @@ router.post("/" , async (req, res) => {
 //? Updates Filtered
 //* Updates all cereals that maches the filter
 // /api/cereals/?x - put
-router.put("/" , async (req, res) => {
+router.put("/", validate(), async (req, res) => {
     try {
         const response = await cereals.updateFiltered(req.query, req.body)
 
@@ -57,7 +58,7 @@ router.put("/" , async (req, res) => {
 //? Delete Filtered
 //* Delete all cereals that maches the filter
 // /api/cereals/?x - delete
-router.delete("/" , async (req, res) => {
+router.delete("/", validate(), async (req, res) => {
     try {
         const response = await cereals.deleteFiltered(req.query)
 

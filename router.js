@@ -1,4 +1,7 @@
 app = require("./server.js")
+var { expressjwt } = require("express-jwt");
+const jwt = require("jsonwebtoken")
+require('dotenv').config()
 
 
 const cereals = require("./routes/cereals.js")
