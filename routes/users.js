@@ -31,7 +31,7 @@ router.get("/", validate(), async (req, res) => {
 //? Create One
 //* Creates a User element
 // /api/users/ - post
-router.post("/", validate(), async (req, res) => {
+router.post("/", async (req, res) => {
     try {
         const response = await users.createOne(req.body)
 

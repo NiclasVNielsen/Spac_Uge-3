@@ -3,8 +3,10 @@ const connection = require('../dbconn.js')
 module.exports.getAll = async () => {   
     const response = await new Promise(async (res, rej) => {
         connection.query('SELECT * FROM cereals', (err, rows, fields) => {
-            if (err) rej(err)
-            res(rows)
+            if (err) 
+                res(err)
+            else
+                res(rows)
         })
     })
     return(response)
@@ -22,8 +24,10 @@ module.exports.getFiltered = async (filter) => {
         }
 
         connection.query('SELECT * FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
-            if (err) rej(err)
-            res(rows)
+            if (err)
+                res(err)
+            else
+                res(rows)
         })
     })
     return(response)
@@ -34,8 +38,10 @@ module.exports.createOne = async (data) => {
         connection.query(`INSERT INTO cereals (name, mfr, type, calories, protein, fat, sodium, fiber, carbo, sugars, potass, vitamins, shelf, weight, cups, rating) 
         VALUES ("${data.name}", "${data.mfr}", "${data.type}", "${data.calories}", "${data.protein}", "${data.fat}", "${data.sodium}", "${data.fiber}", "${data.carbo}", "${data.sugars}", "${data.potass}", "${data.vitamins}", "${data.shelf}", "${data.weight}", "${data.cups}", "${data.rating}")`, 
         (err, rows, fields) => {
-            if (err) rej(err)
-            res("Roger Roger")
+            if (err) 
+                rej(err)
+            else
+                res("Roger Roger")
         })
     })
     return(response)
@@ -61,8 +67,10 @@ module.exports.updateFiltered = async (filter, data) => {
         }
 
         connection.query('UPDATE cereals SET' + queryData + ' WHERE' + queryCondition, (err, rows, fields) => {
-            if (err) rej(err)
-            res("Roger Roger")
+            if (err) 
+                rej(err)
+            else
+                res("Roger Roger")
         })
     })
     return(response)
@@ -80,8 +88,10 @@ module.exports.deleteFiltered = async (filter) => {
         }
 
         connection.query('DELETE FROM cereals WHERE' + queryCondition, (err, rows, fields) => {
-            if (err) rej(err)
-            res("Roger Roger")
+            if (err) 
+                rej(err)
+            else
+                res("Roger Roger")
         })
     })
     return(response)
