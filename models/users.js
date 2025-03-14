@@ -95,7 +95,7 @@ module.exports.login = async (data) => {
             if (err) rej(err)
 
             if(rows.length == 1){
-                const token = jwt.sign({ name: data.name }, process.env.JWT_SECRET)
+                const token = jwt.sign({ name: data.name }, process.env.JWT_SECRET, { expiresIn : '3h' })
     
                 res(token)
             }else{

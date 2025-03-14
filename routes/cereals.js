@@ -1,7 +1,6 @@
 const cereals = require("../models/cereals.js")
 const router = require("express").Router()
-const {validate} = require('../middelware.js')
-var { expressjwt: jwt } = require("express-jwt");
+const { validate } = require('../tokenHandler.js')
 
 //? Read All
 //* Retrieves All Cereals

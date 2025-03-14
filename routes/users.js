@@ -1,6 +1,6 @@
 const users = require("../models/users.js")
 const router = require("express").Router()
-const {validate} = require('../middelware.js')
+const { validate } = require('../tokenHandler.js')
 
 //? Read All
 //* Retrieves All Users
