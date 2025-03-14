@@ -92,11 +92,15 @@ module.exports.deleteFiltered = async (filter) => {
 module.exports.login = async (data) => {   
     const response = await new Promise(async (res, rej) => {
         connection.query(`SELECT * FROM users WHERE name = '${data.name}' AND password = '${data.password}'`, (err, rows, fields) => {
-            if (err) rej("Wrong username or password")
-            
-            const token = jwt.sign({ name: data.name }, process.env.JWT_SECRET)
+            if (err) rej(err)
 
-            res(token)
+            if(rows.length == 1){
+                const token = jwt.sign({ name: data.name }, process.env.JWT_SECRET)
+    
+                res(token)
+            }else{
+                res("Wrong username or password")
+            }
         })
     })
     return(response)
